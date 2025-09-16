@@ -1,34 +1,87 @@
-[gd_scene load_steps=6 format=3 uid="uid://cg8e6xn273awq"]
+[gd_scene load_steps=20 format=3 uid="uid://cg8e6xn273awq"]
 
-[ext_resource type="ArrayMesh" uid="uid://op6f5rh8hnr2" path="res://asset/donutSaucisse.obj" id="1_wankv"]
+[ext_resource type="Texture2D" uid="uid://cdee4gsylpi0v" path="res://textures/rockTexture.jpg" id="2_p8cf3"]
+[ext_resource type="Texture2D" uid="uid://drg1dfmwieocb" path="res://textures/purpleWood.jpg" id="3_dx33h"]
+[ext_resource type="Texture2D" uid="uid://pir0vwwoslq" path="res://textures/pano.jpg" id="4_dx33h"]
+[ext_resource type="Texture2D" uid="uid://6wab8d1wgm5p" path="res://textures/metal.jpg" id="4_qgcv3"]
+[ext_resource type="PackedScene" uid="uid://c0hyq5jrqqjep" path="res://asset/scene.gltf" id="5_qgcv3"]
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_cnl1l"]
+panorama = ExtResource("4_dx33h")
+
+[sub_resource type="Sky" id="Sky_00228"]
+sky_material = SubResource("PanoramaSkyMaterial_cnl1l")
+
+[sub_resource type="Environment" id="Environment_1bl4g"]
+background_mode = 2
+sky = SubResource("Sky_00228")
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_dx33h"]
+panorama = ExtResource("4_dx33h")
+
+[sub_resource type="Sky" id="Sky_qgcv3"]
+sky_material = SubResource("PanoramaSkyMaterial_dx33h")
+
+[sub_resource type="Environment" id="Environment_cnl1l"]
+background_mode = 2
+sky = SubResource("Sky_qgcv3")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cnl1l"]
+albedo_color = Color(0.4139133, 0.23502025, 0.22752789, 1)
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_wankv"]
+material = SubResource("StandardMaterial3D_cnl1l")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_00228"]
+albedo_texture = ExtResource("2_p8cf3")
 
 [sub_resource type="BoxMesh" id="BoxMesh_x5lxk"]
+material = SubResource("StandardMaterial3D_00228")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1bl4g"]
+albedo_texture = ExtResource("3_dx33h")
 
 [sub_resource type="BoxMesh" id="BoxMesh_e0km8"]
+material = SubResource("StandardMaterial3D_1bl4g")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0mgva"]
+albedo_texture = ExtResource("4_qgcv3")
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_wankv"]
+material = SubResource("StandardMaterial3D_0mgva")
 
 [node name="Node3D" type="Node3D"]
 
-[node name="DonutSaucisse" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.70521545, 0, 0.19891036)
-mesh = ExtResource("1_wankv")
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_1bl4g")
 
-[node name="Plan" type="MeshInstance3D" parent="."]
-transform = Transform3D(11.463597, 0, 0, 0, 1, 0, 0, 0, 11.415691, 0, 0, 0)
+[node name="Camera3D" type="Camera3D" parent="WorldEnvironment"]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 5.20865, -18.747091)
+environment = SubResource("Environment_cnl1l")
+
+[node name="Plan" type="MeshInstance3D" parent="WorldEnvironment"]
+transform = Transform3D(10.958259, 0, 0, 0, 0.95591795, 0, 0, 0, 10.912464, 0.17454529, -0.15055323, -1.6442671)
 mesh = SubResource("PlaneMesh_wankv")
+skeleton = NodePath("../..")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(1.5, 0, 0, 0, 1.564, 0, 0, 0, 1.8058391, -2.1213503, 1.0062342, 0)
+[node name="CubeGris" type="MeshInstance3D" parent="WorldEnvironment"]
+transform = Transform3D(1.5, 0, 0, 0, 1.564, 0, 0, 0, 1.8058391, 7.8346786, 1.8699827, 6.448806)
 mesh = SubResource("BoxMesh_x5lxk")
 skeleton = NodePath("../CubeViolet")
 
-[node name="CubeViolet" type="MeshInstance3D" parent="."]
-transform = Transform3D(1.5, 0, 0, 0, 1.564, 0, 0, 0, 1.7123109, -4.1087904, 1.0062342, 0)
+[node name="CubeViolet" type="MeshInstance3D" parent="WorldEnvironment"]
+transform = Transform3D(1.1233015, 0, 0, 0, 1.1782879, 0, 0, 0, 1.2799121, 7.8472385, 0.42563105, 6.448806)
 mesh = SubResource("BoxMesh_e0km8")
+skeleton = NodePath("../..")
 
-[node name="Cylindre" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 3.4343, 0, 0, 0, 1, 4.6815352, 3.4809842, -0.094295025)
+[node name="Cylindre" type="MeshInstance3D" parent="WorldEnvironment"]
+transform = Transform3D(0.9969827, 0, 0.07762404, 0, 3.4343, 0, -0.07762404, 0, 0.9969827, -8.904894, 3.2910562, 7.4078813)
 mesh = SubResource("CylinderMesh_wankv")
+skeleton = NodePath("../..")
+
+[node name="scene" parent="WorldEnvironment" instance=ExtResource("5_qgcv3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.292626, -0.21647632, -10.069427)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.99069685, 0.0818235, -0.10874135, -0.048951235, 0.9598347, 0.27626285, 0.1269785, -0.2683697, 0.9549106, 0, 12.70076, 32.06178)
+shadow_enabled = true
