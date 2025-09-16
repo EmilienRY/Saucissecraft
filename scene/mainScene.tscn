@@ -1,0 +1,34 @@
+[gd_scene load_steps=6 format=3 uid="uid://cg8e6xn273awq"]
+
+[ext_resource type="ArrayMesh" uid="uid://op6f5rh8hnr2" path="res://asset/donutSaucisse.obj" id="1_wankv"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_wankv"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_x5lxk"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_e0km8"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_wankv"]
+
+[node name="Node3D" type="Node3D"]
+
+[node name="DonutSaucisse" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.70521545, 0, 0.19891036)
+mesh = ExtResource("1_wankv")
+
+[node name="Plan" type="MeshInstance3D" parent="."]
+transform = Transform3D(11.463597, 0, 0, 0, 1, 0, 0, 0, 11.415691, 0, 0, 0)
+mesh = SubResource("PlaneMesh_wankv")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.5, 0, 0, 0, 1.564, 0, 0, 0, 1.8058391, -2.1213503, 1.0062342, 0)
+mesh = SubResource("BoxMesh_x5lxk")
+skeleton = NodePath("../CubeViolet")
+
+[node name="CubeViolet" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.5, 0, 0, 0, 1.564, 0, 0, 0, 1.7123109, -4.1087904, 1.0062342, 0)
+mesh = SubResource("BoxMesh_e0km8")
+
+[node name="Cylindre" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 3.4343, 0, 0, 0, 1, 4.6815352, 3.4809842, -0.094295025)
+mesh = SubResource("CylinderMesh_wankv")
