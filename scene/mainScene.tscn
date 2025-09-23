@@ -1,5 +1,6 @@
-[gd_scene load_steps=20 format=3 uid="uid://cg8e6xn273awq"]
+[gd_scene load_steps=24 format=3 uid="uid://cg8e6xn273awq"]
 
+[ext_resource type="Script" uid="uid://b6a2fydgql28i" path="res://Scripts/run_search.gd" id="1_qgcv3"]
 [ext_resource type="Texture2D" uid="uid://cdee4gsylpi0v" path="res://textures/rockTexture.jpg" id="2_p8cf3"]
 [ext_resource type="Texture2D" uid="uid://drg1dfmwieocb" path="res://textures/purpleWood.jpg" id="3_dx33h"]
 [ext_resource type="Texture2D" uid="uid://pir0vwwoslq" path="res://textures/pano.jpg" id="4_dx33h"]
@@ -50,7 +51,14 @@ albedo_texture = ExtResource("4_qgcv3")
 [sub_resource type="CylinderMesh" id="CylinderMesh_wankv"]
 material = SubResource("StandardMaterial3D_0mgva")
 
+[sub_resource type="BoxMesh" id="BoxMesh_dx33h"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_qgcv3"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_cnl1l"]
+
 [node name="Node3D" type="Node3D"]
+script = ExtResource("1_qgcv3")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_1bl4g")
@@ -60,7 +68,7 @@ transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 5
 environment = SubResource("Environment_cnl1l")
 
 [node name="Plan" type="MeshInstance3D" parent="WorldEnvironment"]
-transform = Transform3D(10, 0, 0, 0, 0.956, 0, 0, 0, 10, 0, 0, 0)
+transform = Transform3D(100, 0, 0, 0, 4.611, 0, 0, 0, 100, 0, -13.453749, 0)
 mesh = SubResource("PlaneMesh_wankv")
 skeleton = NodePath("../..")
 
@@ -87,3 +95,19 @@ transform = Transform3D(0.7861995, -0.617407, -0.026436925, 0.6146708, 0.7768663
 light_color = Color(0.99397033, 0.6543491, 0.5802404, 1)
 light_energy = 11.764
 shadow_enabled = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(20, 0, 0, 0, 1.734, 0, 0, 0, 20, 0, -0.904624, 0)
+mesh = SubResource("BoxMesh_dx33h")
+
+[node name="piedsHautGauche" type="MeshInstance3D" parent="MeshInstance3D"]
+transform = Transform3D(0.10000001, 0, 0, 0, 10, 0, 0, 0, 0.10000001, 0.4499337, -4.6070447, 0.44956604)
+mesh = SubResource("BoxMesh_qgcv3")
+
+[node name="piedsHautDroite" type="MeshInstance3D" parent="MeshInstance3D"]
+transform = Transform3D(0.100000024, 0, 0, 0, 10, 0, 0, 0, 0.100000024, -0.45, -4.607, 0.45)
+mesh = SubResource("BoxMesh_cnl1l")
+
+[node name="piedsBasDroite" type="MeshInstance3D" parent="MeshInstance3D"]
+
+[node name="piedsBasGauche" type="MeshInstance3D" parent="MeshInstance3D"]
