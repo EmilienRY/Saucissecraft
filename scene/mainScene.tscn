@@ -65,12 +65,12 @@ mesh = SubResource("PlaneMesh_wankv")
 skeleton = NodePath("../..")
 
 [node name="CubeGris" type="MeshInstance3D" parent="WorldEnvironment"]
-transform = Transform3D(1.6, 0, 0, 0, 1.6, 0, 0, 0, 1.6, 7.8346786, 1.8991473, 6.448806)
+transform = Transform3D(1.6, 0, 0, 0, 1.6, 0, 0, 0, 1.6, 7.8346786, 1.938838, 6.448806)
 mesh = SubResource("BoxMesh_x5lxk")
 skeleton = NodePath("../CubeViolet")
 
 [node name="CubeViolet" type="MeshInstance3D" parent="WorldEnvironment"]
-transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, 7.847, 0.4551369, 6.449)
+transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, 7.847, 0.6026002, 6.449)
 mesh = SubResource("BoxMesh_e0km8")
 skeleton = NodePath("../..")
 
@@ -83,5 +83,7 @@ skeleton = NodePath("../..")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.84, 0, -7.987026)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.99069685, 0.0818235, -0.10874135, -0.048951235, 0.9598347, 0.27626285, 0.1269785, -0.2683697, 0.9549106, 0, 12.70076, 32.06178)
+transform = Transform3D(0.7861995, -0.617407, -0.026436925, 0.6146708, 0.7768663, 0.13659647, -0.06379767, -0.12364209, 0.99027395, 0, 20.774004, 44.887955)
+light_color = Color(0.99397033, 0.6543491, 0.5802404, 1)
+light_energy = 11.764
 shadow_enabled = true
