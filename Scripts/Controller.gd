@@ -85,14 +85,14 @@ func load_states_from_xml(path: String) -> Dictionary:
 				var color = color_from_name(couleur)
 				var couche = attr_map.get("couche", )
 
-				print("Loaded block id=%d shape=%s weight=%f color=%s position=%s sur=%s couche=%s" % [id, shape, weight, str(color), position, sur,couche])
+				var log_line = "Loaded block id=%d shape=%s weight=%f color=%s position=%s sur=%s couche=%s" % [id, shape, weight, str(color), position, sur, couche]
+				print(log_line)
 
 				var b = Block.new(id, shape, weight, color, null, position,couche, null)
 				if current_section == "Initial":
 					initial_entries.append({"block": b, "sur": sur})
 				elif current_section == "Goal":
 					goal_entries.append({"block": b, "sur": sur})
-
 
 	var start_blocks = _resolve_entries(initial_entries)
 	var goal_blocks = _resolve_entries(goal_entries)
@@ -130,11 +130,7 @@ func _resolve_entries(entries: Array) -> Array:
 	return blocks_arr
 
 
-
-
-
-
-
+# actions
 
 func pickup(state: State, block_idx: int) -> State:
 	if state.hold_block != null:
@@ -153,7 +149,6 @@ func pickup(state: State, block_idx: int) -> State:
 	ns.hold_block = ns.blocks[idx]
 	ns.blocks.remove_at(idx)
 	return ns
-
 
 func drop_on_position(state: State, position_name: String) -> State:
 	if state.hold_block == null:
@@ -221,12 +216,22 @@ func stand(state: State) -> State:
 	ns.hold_block.m_lay = "non"
 	return ns
 
+
+# lancement de la recherche
+
 func search() -> Array[String]:
+	var t0 = Time.get_ticks_msec()
+	var iter = 0
 	while queue.size() > 0:
 		var current_node: StateNode = queue.pop_front()
 		var current_state = current_node.state
 
+		var sizeTree = 0
+
 		if equals_state(current_state, goal_state):
+			var t1 = Time.get_ticks_msec()
+			print("[search] Solution trouvée en %d ms" % [t1-t0])
+			print("[search] Taille de l'arbre exploré: %d noeuds" % sizeTree)
 			return reconstruct_path(current_node)
 
 		visited.append(current_state)
@@ -234,8 +239,8 @@ func search() -> Array[String]:
 		var neighbors = generate_neighbors(current_node)
 		for neighbor_node in neighbors:
 			if not contains_state(visited, neighbor_node.state) and not contains_state_node(queue, neighbor_node):
+				sizeTree += 1
 				queue.append(neighbor_node)
-
 	return []
 
 func generate_neighbors(node: StateNode) -> Array[StateNode]:
@@ -304,7 +309,6 @@ func equals_state(a: State, b: State) -> bool:
 		return true
 	if (hold_a == null) != (hold_b == null):
 		return false
-	# compare id et lay du bloc tenu
 	return hold_a.m_id == hold_b.m_id and hold_a.m_lay == hold_b.m_lay
 
 # -----------------------------
