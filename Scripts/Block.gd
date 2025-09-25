@@ -8,8 +8,8 @@ var m_color: Color
 var m_material: Material
 var m_position: String
 var m_block_below: Block
-
-func _init(id: int, shape: String, weight: float, color: Color, material: Material, position: String, block_below: Block = null) -> void:
+var m_lay: String
+func _init(id: int, shape: String, weight: float, color: Color, material: Material, position: String, lay: String, block_below: Block = null) -> void:
 	m_id = id
 	m_shape = shape
 	m_weight = weight
@@ -17,6 +17,7 @@ func _init(id: int, shape: String, weight: float, color: Color, material: Materi
 	m_material = material
 	m_position = position
 	m_block_below = block_below
+	m_lay = lay
 
 func copy_from(other: Block) -> void:
 	m_id = other.m_id

@@ -1,15 +1,15 @@
 <BlockWorld>
 	<Initial>
-		<Block id="1" forme="cylindre" poids="50" couleur="gris" matérial="métal" position="hautDroite" sur="table"/>
-		<Block id="2" forme="cube" poids="3" couleur="violet" matérial="bois" position="hautGauche" sur="table"/>
-		<Block id="3" forme="cube" poids="3" couleur="gris" matérial="roche" position="hautGauche" sur="2"/>
-		<Block id="4" forme="donut saucisse" poids="10" couleur="rouge" matérial="métal" position="basGauche" sur="table"/>
+		<Block id="1" forme="cylindre" poids="50" couleur="gris" matérial="métal" position="hautDroite" sur="table" couche="non"/>
+		<Block id="2" forme="cube" poids="3" couleur="violet" matérial="bois" position="hautGauche" sur="table" couche="non"/>
+		<Block id="3" forme="cube" poids="3" couleur="gris" matérial="roche" position="hautGauche" sur="2" couche="non"/>
+		<Block id="4" forme="donut saucisse" poids="10" couleur="rouge" matérial="métal" position="basGauche" sur="table" couche="non"/>
 	</Initial>
 
 	<Goal>
-		<Block id="1" forme="cylindre" poids="50" couleur="gris" matérial="métal" position="milieu" sur="table"/>
-		<Block id="2" forme="cube" poids="3" couleur="violet" matérial="bois" position="basDroite" sur="3"/>
-		<Block id="3" forme="cube" poids="3" couleur="gris" matérial="roche" position="basDroite" sur="table"/>
-		<Block id="4" forme="donut saucisse" poids="10" couleur="rouge" matérial="métal" position="milieu" sur="table"/>
+		<Block id="1" forme="cylindre" poids="50" couleur="gris" matérial="métal" position="milieu" sur="table" couche="non"/>
+		<Block id="2" forme="cube" poids="3" couleur="violet" matérial="bois" position="basDroite" sur="3" couche="non"/>
+		<Block id="3" forme="cube" poids="3" couleur="gris" matérial="roche" position="basDroite" sur="table" couche="non"/>
+		<Block id="4" forme="donut saucisse" poids="10" couleur="rouge" matérial="métal" position="milieu" sur="table" couche="oui"/>
 	</Goal>
 </BlockWorld>

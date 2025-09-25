@@ -24,12 +24,6 @@ func _init(start: State, goal: State) -> void:
 
 
 
-
-
-
-
-
-
 # -----------------------------
 # XML loading helpers
 # -----------------------------
@@ -89,7 +83,11 @@ func load_states_from_xml(path: String) -> Dictionary:
 				var position = translate_position(position_raw)
 				var sur = attr_map.get("sur", "table")
 				var color = color_from_name(couleur)
-				var b = Block.new(id, shape, weight, color, null, position, null)
+				var couche = attr_map.get("couche", )
+
+				print("Loaded block id=%d shape=%s weight=%f color=%s position=%s sur=%s couche=%s" % [id, shape, weight, str(color), position, sur,couche])
+
+				var b = Block.new(id, shape, weight, color, null, position,couche, null)
 				if current_section == "Initial":
 					initial_entries.append({"block": b, "sur": sur})
 				elif current_section == "Goal":
@@ -189,6 +187,40 @@ func drop_on_block(state: State, dest_block_id: int) -> State:
 	ns.hold_block = null
 	return ns
 
+
+
+func can_lay(state: State) -> bool:
+	if state.hold_block == null:
+		return false
+	var f= state.hold_block.m_shape
+	if (f == "cylindre" or f == "donut saucisse") and state.hold_block.m_lay=="non":
+		return true
+	return false
+
+
+func lay(state: State) -> State:
+	if not can_lay(state):
+		return null
+	var ns: State = state.clone()
+	ns.hold_block.m_lay = "oui"
+	return ns
+
+
+func can_stand(state: State) -> bool:
+	if state.hold_block == null:
+		return false
+	var f= state.hold_block.m_shape
+	if (f == "cube" or f == "donut saucisse") and state.hold_block.m_lay=="oui":
+		return true
+	return false
+
+func stand(state: State) -> State:
+	if not can_stand(state):
+		return null
+	var ns: State = state.clone()
+	ns.hold_block.m_lay = "non"
+	return ns
+
 func search() -> Array[String]:
 	while queue.size() > 0:
 		var current_node: StateNode = queue.pop_front()
@@ -206,7 +238,6 @@ func search() -> Array[String]:
 
 	return []
 
-
 func generate_neighbors(node: StateNode) -> Array[StateNode]:
 	var results: Array[StateNode] = []
 	var state = node.state
@@ -217,14 +248,26 @@ func generate_neighbors(node: StateNode) -> Array[StateNode]:
 			results.append(StateNode.new(new_state, node, "pickup " + str(state.blocks[i].m_id)))
 
 	if state.hold_block != null:
+		# drop on table positions
 		for pos_name in POSITIONS.keys():
 			var new_state2 = drop_on_position(state, pos_name)
 			if new_state2 != null:
 				results.append(StateNode.new(new_state2, node, "drop_on_position " + pos_name))
+		# drop on other blocks
 		for b in state.blocks:
 			var new_state3 = drop_on_block(state, b.m_id)
 			if new_state3 != null:
 				results.append(StateNode.new(new_state3, node, "drop_on_block " + str(b.m_id)))
+		# lay
+		if can_lay(state):
+			var new_state4 = lay(state)
+			if new_state4 != null:
+				results.append(StateNode.new(new_state4, node, "lay"))
+		# stand
+		if can_stand(state):
+			var new_state5 = stand(state)
+			if new_state5 != null:
+				results.append(StateNode.new(new_state5, node, "stand"))
 
 	return results
 
@@ -245,7 +288,7 @@ func equals_state(a: State, b: State) -> bool:
 		return false
 	var map_a = {}
 	for block in a.blocks:
-		map_a[block.m_id] = {"pos": block.m_position, "below": (block.m_block_below.m_id if block.m_block_below != null else -1)}
+		map_a[block.m_id] = {"pos": block.m_position, "below": (block.m_block_below.m_id if block.m_block_below != null else -1), "lay": block.m_lay}
 	for block_b in b.blocks:
 		if not map_a.has(block_b.m_id):
 			return false
@@ -253,11 +296,16 @@ func equals_state(a: State, b: State) -> bool:
 		var below_id = -1
 		if block_b.m_block_below != null:
 			below_id = block_b.m_block_below.m_id
-		if entry["pos"] != block_b.m_position or entry["below"] != below_id:
+		if entry["pos"] != block_b.m_position or entry["below"] != below_id or entry["lay"] != block_b.m_lay:
 			return false
-	var hold_a = (a.hold_block.m_id if a.hold_block != null else -1)
-	var hold_b = (b.hold_block.m_id if b.hold_block != null else -1)
-	return hold_a == hold_b
+	var hold_a = a.hold_block
+	var hold_b = b.hold_block
+	if hold_a == null and hold_b == null:
+		return true
+	if (hold_a == null) != (hold_b == null):
+		return false
+	# compare id et lay du bloc tenu
+	return hold_a.m_id == hold_b.m_id and hold_a.m_lay == hold_b.m_lay
 
 # -----------------------------
 # Reconstruction du chemin

@@ -21,7 +21,8 @@ func clone() -> State:
 	var old_to_new = {}
 	var new_blocks: Array[Block] = []
 	for b in blocks:
-		var nb: Block = Block.new(b.m_id, b.m_shape, b.m_weight, b.m_color, b.m_material, b.m_position, null)
+		var nb: Block = Block.new(b.m_id, b.m_shape, b.m_weight, b.m_color, b.m_material, b.m_position, b.m_lay, null)
+		nb.m_lay = b.m_lay
 		new_blocks.append(nb)
 		old_to_new[b] = nb
 
@@ -34,7 +35,8 @@ func clone() -> State:
 
 	# If hold_block is not in blocks (picked up), ensure it's copied too
 	if hold_block != null and not old_to_new.has(hold_block):
-		var hb_copy: Block = Block.new(hold_block.m_id, hold_block.m_shape, hold_block.m_weight, hold_block.m_color, hold_block.m_material, hold_block.m_position, null)
+		var hb_copy: Block = Block.new(hold_block.m_id, hold_block.m_shape, hold_block.m_weight, hold_block.m_color, hold_block.m_material, hold_block.m_position,hold_block.m_lay, null)
+		hb_copy.m_lay = hold_block.m_lay
 		old_to_new[hold_block] = hb_copy
 
 	# Build new state (use add_block to avoid typed-array mismatches)
