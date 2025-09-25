@@ -1,4 +1,4 @@
-[gd_scene load_steps=46 format=3 uid="uid://cg8e6xn273awq"]
+[gd_scene load_steps=48 format=3 uid="uid://cg8e6xn273awq"]
 
 [ext_resource type="Script" uid="uid://b6a2fydgql28i" path="res://Scripts/run_search.gd" id="1_qgcv3"]
 [ext_resource type="Texture2D" uid="uid://cdee4gsylpi0v" path="res://textures/rockTexture.jpg" id="2_p8cf3"]
@@ -15,6 +15,7 @@
 [ext_resource type="Texture2D" uid="uid://go2ybuoptnts" path="res://textures/light.png" id="7_s3u6w"]
 [ext_resource type="Texture2D" uid="uid://dwy7rcqle1kl6" path="res://textures/tv.png" id="9_q6fla"]
 [ext_resource type="Texture2D" uid="uid://d21407l38h251" path="res://textures/carpet.png" id="9_rh23s"]
+[ext_resource type="Texture2D" uid="uid://dhoehj5pga76w" path="res://textures/secret.png" id="11_myw5j"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_cnl1l"]
 panorama = ExtResource("4_dx33h")
@@ -81,6 +82,11 @@ emission_enabled = true
 emission_energy_multiplier = 0.5
 emission_texture = ExtResource("4_1bl4g")
 uv1_scale = Vector3(4, 4, 4)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dq236"]
+albedo_texture = ExtResource("11_myw5j")
+emission_enabled = true
+emission_texture = ExtResource("11_myw5j")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_myw5j"]
 albedo_texture = ExtResource("6_0mgva")
@@ -186,6 +192,12 @@ skeleton = NodePath("../../..")
 [node name="Front_Wall" type="MeshInstance3D" parent="WorldEnvironment/House"]
 transform = Transform3D(-100.00001, -4.0310647e-07, 3.8213714e-13, 0, -2.0155323e-07, -100.000015, 8.742279e-06, -4.6110005, 4.3711393e-06, 0.047698975, 0.04511261, 99.998566)
 material_override = SubResource("StandardMaterial3D_5sxg5")
+mesh = SubResource("PlaneMesh_wankv")
+skeleton = NodePath("../../..")
+
+[node name="Front_Wall2" type="MeshInstance3D" parent="WorldEnvironment/House"]
+transform = Transform3D(-100, -6.9624167e-07, 3.3001182e-13, 0, -2.0155322e-07, -50, 1.509958e-05, -4.611, 2.1855694e-06, 0.047698975, 30.038471, 178.94806)
+material_override = SubResource("StandardMaterial3D_dq236")
 mesh = SubResource("PlaneMesh_wankv")
 skeleton = NodePath("../../..")
 
