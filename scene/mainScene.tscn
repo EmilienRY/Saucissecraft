@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://cg8e6xn273awq"]
+[gd_scene load_steps=26 format=3 uid="uid://cg8e6xn273awq"]
 
 [ext_resource type="Script" uid="uid://b6a2fydgql28i" path="res://Scripts/run_search.gd" id="1_qgcv3"]
 [ext_resource type="Texture2D" uid="uid://cdee4gsylpi0v" path="res://textures/rockTexture.jpg" id="2_p8cf3"]
@@ -57,6 +57,10 @@ material = SubResource("StandardMaterial3D_0mgva")
 
 [sub_resource type="BoxMesh" id="BoxMesh_cnl1l"]
 
+[sub_resource type="BoxMesh" id="BoxMesh_00228"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_1bl4g"]
+
 [node name="Node3D" type="Node3D"]
 script = ExtResource("1_qgcv3")
 
@@ -101,7 +105,7 @@ transform = Transform3D(20, 0, 0, 0, 1.734, 0, 0, 0, 20, 0, -0.904624, 0)
 mesh = SubResource("BoxMesh_dx33h")
 
 [node name="piedsHautGauche" type="MeshInstance3D" parent="MeshInstance3D"]
-transform = Transform3D(0.10000001, 0, 0, 0, 10, 0, 0, 0, 0.10000001, 0.4499337, -4.6070447, 0.44956604)
+transform = Transform3D(0.100000024, 0, 0, 0, 10, 0, 0, 0, 0.100000024, 0.44993377, -4.6070447, 0.44956607)
 mesh = SubResource("BoxMesh_qgcv3")
 
 [node name="piedsHautDroite" type="MeshInstance3D" parent="MeshInstance3D"]
@@ -109,5 +113,9 @@ transform = Transform3D(0.100000024, 0, 0, 0, 10, 0, 0, 0, 0.100000024, -0.45, -
 mesh = SubResource("BoxMesh_cnl1l")
 
 [node name="piedsBasDroite" type="MeshInstance3D" parent="MeshInstance3D"]
+transform = Transform3D(0.1, 0, 0, 0, 10, 0, 0, 0, 0.1, -0.45, -4.607, -0.45)
+mesh = SubResource("BoxMesh_00228")
 
 [node name="piedsBasGauche" type="MeshInstance3D" parent="MeshInstance3D"]
+transform = Transform3D(0.1, 0, 0, 0, 10, 0, 0, 0, 0.1, 0.45, -4.607, -0.45)
+mesh = SubResource("BoxMesh_1bl4g")

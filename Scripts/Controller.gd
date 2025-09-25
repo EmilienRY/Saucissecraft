@@ -228,7 +228,6 @@ func generate_neighbors(node: StateNode) -> Array[StateNode]:
 
 	return results
 
-
 func contains_state(array: Array[State], target: State) -> bool:
 	for s in array:
 		if equals_state(s, target):
@@ -240,9 +239,6 @@ func contains_state_node(array: Array[StateNode], target_node: StateNode) -> boo
 		if equals_state(n.state, target_node.state):
 			return true
 	return false
-
-
-
 
 func equals_state(a: State, b: State) -> bool:
 	if a.blocks.size() != b.blocks.size():
