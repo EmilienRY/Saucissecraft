@@ -221,12 +221,11 @@ func stand(state: State) -> State:
 
 func search() -> Array[String]:
 	var t0 = Time.get_ticks_msec()
-	var iter = 0
+	var sizeTree = 0
 	while queue.size() > 0:
 		var current_node: StateNode = queue.pop_front()
 		var current_state = current_node.state
 
-		var sizeTree = 0
 
 		if equals_state(current_state, goal_state):
 			var t1 = Time.get_ticks_msec()
