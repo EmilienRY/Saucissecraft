@@ -1,11 +1,20 @@
-[gd_scene load_steps=26 format=3 uid="uid://cg8e6xn273awq"]
+[gd_scene load_steps=46 format=3 uid="uid://cg8e6xn273awq"]
 
 [ext_resource type="Script" uid="uid://b6a2fydgql28i" path="res://Scripts/run_search.gd" id="1_qgcv3"]
 [ext_resource type="Texture2D" uid="uid://cdee4gsylpi0v" path="res://textures/rockTexture.jpg" id="2_p8cf3"]
+[ext_resource type="Texture2D" uid="uid://bf0hpkmrguiw" path="res://textures/tiles.jpg" id="3_00228"]
 [ext_resource type="Texture2D" uid="uid://drg1dfmwieocb" path="res://textures/purpleWood.jpg" id="3_dx33h"]
+[ext_resource type="Texture2D" uid="uid://5vkf7or0u1iv" path="res://textures/ceiling.jpg" id="4_0mgva"]
+[ext_resource type="Texture2D" uid="uid://c6r2v0hv255nq" path="res://textures/brique.jpg" id="4_1bl4g"]
 [ext_resource type="Texture2D" uid="uid://pir0vwwoslq" path="res://textures/pano.jpg" id="4_dx33h"]
 [ext_resource type="Texture2D" uid="uid://6wab8d1wgm5p" path="res://textures/metal.jpg" id="4_qgcv3"]
 [ext_resource type="PackedScene" uid="uid://c0hyq5jrqqjep" path="res://asset/scene.gltf" id="5_qgcv3"]
+[ext_resource type="Texture2D" uid="uid://csimei8tlxawu" path="res://textures/door.png" id="6_0mgva"]
+[ext_resource type="Texture2D" uid="uid://bhufk1r2qx84g" path="res://textures/plant.png" id="7_5sxg5"]
+[ext_resource type="Texture2D" uid="uid://1of28j3vlcdq" path="res://textures/window.jpg" id="7_8selj"]
+[ext_resource type="Texture2D" uid="uid://go2ybuoptnts" path="res://textures/light.png" id="7_s3u6w"]
+[ext_resource type="Texture2D" uid="uid://dwy7rcqle1kl6" path="res://textures/tv.png" id="9_q6fla"]
+[ext_resource type="Texture2D" uid="uid://d21407l38h251" path="res://textures/carpet.png" id="9_rh23s"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_cnl1l"]
 panorama = ExtResource("4_dx33h")
@@ -27,12 +36,6 @@ sky_material = SubResource("PanoramaSkyMaterial_dx33h")
 background_mode = 2
 sky = SubResource("Sky_qgcv3")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cnl1l"]
-albedo_color = Color(0.4139133, 0.23502025, 0.22752789, 1)
-
-[sub_resource type="PlaneMesh" id="PlaneMesh_wankv"]
-material = SubResource("StandardMaterial3D_cnl1l")
-
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_00228"]
 albedo_texture = ExtResource("2_p8cf3")
 
@@ -50,6 +53,77 @@ albedo_texture = ExtResource("4_qgcv3")
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_wankv"]
 material = SubResource("StandardMaterial3D_0mgva")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8selj"]
+albedo_texture = ExtResource("3_00228")
+emission_energy_multiplier = 0.1
+emission_texture = ExtResource("3_00228")
+uv1_scale = Vector3(2, 2, 2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cnl1l"]
+albedo_color = Color(0.4139133, 0.23502025, 0.22752789, 1)
+emission_enabled = true
+emission_texture = ExtResource("4_0mgva")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_wankv"]
+material = SubResource("StandardMaterial3D_cnl1l")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yrrhc"]
+transparency = 1
+albedo_texture = ExtResource("9_rh23s")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rh23s"]
+albedo_texture = ExtResource("4_0mgva")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5sxg5"]
+albedo_texture = ExtResource("4_1bl4g")
+emission_enabled = true
+emission_energy_multiplier = 0.5
+emission_texture = ExtResource("4_1bl4g")
+uv1_scale = Vector3(4, 4, 4)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_myw5j"]
+albedo_texture = ExtResource("6_0mgva")
+emission_enabled = true
+emission_texture = ExtResource("6_0mgva")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4w6yj"]
+transparency = 1
+albedo_texture = ExtResource("7_s3u6w")
+emission_enabled = true
+emission_texture = ExtResource("7_s3u6w")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sijgl"]
+transparency = 1
+albedo_texture = ExtResource("7_5sxg5")
+emission_enabled = true
+emission_energy_multiplier = 0.5
+emission_texture = ExtResource("7_5sxg5")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ogdkf"]
+albedo_texture = ExtResource("7_8selj")
+emission_enabled = true
+emission_texture = ExtResource("7_8selj")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_u2mby"]
+transparency = 1
+albedo_texture = ExtResource("9_q6fla")
+emission_enabled = true
+emission_texture = ExtResource("9_q6fla")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_q6fla"]
+albedo_texture = ExtResource("4_1bl4g")
+emission_enabled = true
+emission_energy_multiplier = 0.5
+emission_texture = ExtResource("4_1bl4g")
+uv1_scale = Vector3(4, 4, 4)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_s3u6w"]
+albedo_texture = ExtResource("4_1bl4g")
+emission_enabled = true
+emission_energy_multiplier = 0.5
+emission_texture = ExtResource("4_1bl4g")
+uv1_scale = Vector3(4, 4, 4)
 
 [sub_resource type="BoxMesh" id="BoxMesh_dx33h"]
 
@@ -71,11 +145,6 @@ environment = SubResource("Environment_1bl4g")
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 5.20865, -18.747091)
 environment = SubResource("Environment_cnl1l")
 
-[node name="Plan" type="MeshInstance3D" parent="WorldEnvironment"]
-transform = Transform3D(100, 0, 0, 0, 4.611, 0, 0, 0, 100, 0, -13.453749, 0)
-mesh = SubResource("PlaneMesh_wankv")
-skeleton = NodePath("../..")
-
 [node name="CubeGris" type="MeshInstance3D" parent="WorldEnvironment"]
 transform = Transform3D(1.6, 0, 0, 0, 1.6, 0, 0, 0, 1.6, 7.8346786, 1.938838, 6.448806)
 mesh = SubResource("BoxMesh_x5lxk")
@@ -91,17 +160,89 @@ transform = Transform3D(0.9969827, 0, 0.07762404, 0, 3.4343, 0, -0.07762404, 0, 
 mesh = SubResource("CylinderMesh_wankv")
 skeleton = NodePath("../..")
 
-[node name="scene" parent="WorldEnvironment" instance=ExtResource("5_qgcv3")]
+[node name="Donut" parent="WorldEnvironment" instance=ExtResource("5_qgcv3")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.84, 0, -7.987026)
 
+[node name="House" type="Node3D" parent="WorldEnvironment"]
+
+[node name="Floor" type="MeshInstance3D" parent="WorldEnvironment/House"]
+transform = Transform3D(100, 0, 0, 0, 4.611, 0, 0, 0, 100, 0, -14, 0)
+material_override = SubResource("StandardMaterial3D_8selj")
+mesh = SubResource("PlaneMesh_wankv")
+skeleton = NodePath("../../..")
+
+[node name="Carpet" type="MeshInstance3D" parent="WorldEnvironment/House"]
+transform = Transform3D(50, 0, 0, 0, 4.611, 4.371139e-06, 0, 4.0310644e-07, -50, 0, -12.996456, 0)
+material_override = SubResource("StandardMaterial3D_yrrhc")
+mesh = SubResource("PlaneMesh_wankv")
+skeleton = NodePath("../../..")
+
+[node name="Ceiling" type="MeshInstance3D" parent="WorldEnvironment/House"]
+transform = Transform3D(100, 0, 0, 0, -4.5409484, 17.364822, 0, -0.80069196, -98.480774, 0, 59.493637, 0)
+material_override = SubResource("StandardMaterial3D_rh23s")
+mesh = SubResource("PlaneMesh_wankv")
+skeleton = NodePath("../../..")
+
+[node name="Front_Wall" type="MeshInstance3D" parent="WorldEnvironment/House"]
+transform = Transform3D(-100.00001, -4.0310647e-07, 3.8213714e-13, 0, -2.0155323e-07, -100.000015, 8.742279e-06, -4.6110005, 4.3711393e-06, 0.047698975, 0.04511261, 99.998566)
+material_override = SubResource("StandardMaterial3D_5sxg5")
+mesh = SubResource("PlaneMesh_wankv")
+skeleton = NodePath("../../..")
+
+[node name="Door" type="MeshInstance3D" parent="WorldEnvironment/House"]
+transform = Transform3D(-12.05782, -4.031064e-07, 8.606682e-14, 0, -2.015532e-07, -22.522497, 1.0541281e-06, -4.6109996, 9.844896e-07, 0, 9.5, 95.402)
+material_override = SubResource("StandardMaterial3D_myw5j")
+mesh = SubResource("PlaneMesh_wankv")
+skeleton = NodePath("../../..")
+
+[node name="Light" type="MeshInstance3D" parent="WorldEnvironment/House"]
+transform = Transform3D(-16, -6.9624167e-07, 5.280189e-14, 0, -2.0155322e-07, -8, 2.4159328e-06, -4.611, 3.496911e-07, 0, 40.66416, 36.38334)
+material_override = SubResource("StandardMaterial3D_4w6yj")
+mesh = SubResource("PlaneMesh_wankv")
+skeleton = NodePath("../../..")
+
+[node name="Plant" type="MeshInstance3D" parent="WorldEnvironment/House"]
+transform = Transform3D(-16.252312, 0.061214924, -7.09506e-07, 0, -3.7128463e-09, -22.522495, -16.895138, -0.058885816, 6.8251074e-07, -74.62235, 9.5, 49.62391)
+material_override = SubResource("StandardMaterial3D_sijgl")
+mesh = SubResource("PlaneMesh_wankv")
+skeleton = NodePath("../../..")
+
+[node name="Left_Window" type="MeshInstance3D" parent="WorldEnvironment/House"]
+transform = Transform3D(-21.449366, -6.9624167e-07, 8.6114716e-14, 0, -2.0155323e-07, -13.047218, 3.2387643e-06, -4.611, 5.7031207e-07, 56, 14.256, 95.402)
+material_override = SubResource("StandardMaterial3D_ogdkf")
+mesh = SubResource("PlaneMesh_wankv")
+skeleton = NodePath("../../..")
+
+[node name="TV" type="MeshInstance3D" parent="WorldEnvironment/House"]
+transform = Transform3D(-6.473506, -4.395989, 5.437183e-07, 5.215029e-14, -2.0155322e-07, -13.047218, 20.449183, -1.3916181, 1.7212245e-07, 82.82173, 14.256, 39.931297)
+material_override = SubResource("StandardMaterial3D_u2mby")
+mesh = SubResource("PlaneMesh_wankv")
+skeleton = NodePath("../../..")
+
+[node name="Right_Window" type="MeshInstance3D" parent="WorldEnvironment/House"]
+transform = Transform3D(-21.449366, -6.9624167e-07, 8.6114716e-14, 0, -2.0155323e-07, -13.047218, 3.2387643e-06, -4.611, 5.7031207e-07, -56, 14.256, 95.402)
+material_override = SubResource("StandardMaterial3D_ogdkf")
+mesh = SubResource("PlaneMesh_wankv")
+skeleton = NodePath("../../..")
+
+[node name="Right_Wall" type="MeshInstance3D" parent="WorldEnvironment/House"]
+transform = Transform3D(-4.3711393e-06, 4.6110005, -4.3711393e-06, 0, -2.0155323e-07, -100.000015, -100.00001, -2.0155323e-07, 1.9106857e-13, -100, 0, 0)
+material_override = SubResource("StandardMaterial3D_q6fla")
+mesh = SubResource("PlaneMesh_wankv")
+skeleton = NodePath("../../..")
+
+[node name="Left_Wall" type="MeshInstance3D" parent="WorldEnvironment/House"]
+transform = Transform3D(-4.3711393e-06, -4.6110005, 4.3711393e-06, 0, -2.0155323e-07, -100.00001, 100.00001, -2.0155323e-07, 1.9106856e-13, 100, 0, 0)
+material_override = SubResource("StandardMaterial3D_s3u6w")
+mesh = SubResource("PlaneMesh_wankv")
+skeleton = NodePath("../../..")
+
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.7861995, -0.617407, -0.026436925, 0.6146708, 0.7768663, 0.13659647, -0.06379767, -0.12364209, 0.99027395, 0, 20.774004, 44.887955)
-light_color = Color(0.99397033, 0.6543491, 0.5802404, 1)
-light_energy = 11.764
+transform = Transform3D(0.7861995, -0.617407, -0.026436916, 0.5092534, 0.62305665, 0.59368473, -0.35007343, -0.48021775, 0.80426335, 0, 20.774004, 44.887955)
 shadow_enabled = true
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(20, 0, 0, 0, 1.734, 0, 0, 0, 20, 0, -0.904624, 0)
+transform = Transform3D(20, 0, 0, 0, 1.734, 0, 0, 0, 20, 0, 0, 0)
 mesh = SubResource("BoxMesh_dx33h")
 
 [node name="piedsHautGauche" type="MeshInstance3D" parent="MeshInstance3D"]
