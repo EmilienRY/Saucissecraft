@@ -7,7 +7,7 @@
 	</Initial>
 
 	<Goal>
-		<Block id="1" forme="cylindre" poids="50" couleur="gris" matérial="métal" position="milieu" sur="table" couche="non"/>
+		<Block id="1" forme="cylindre" poids="50" couleur="gris" matérial="métal" position="milieu" sur="4" couche="non"/>
 		<Block id="2" forme="cube" poids="3" couleur="violet" matérial="bois" position="basDroite" sur="3" couche="non"/>
 		<Block id="3" forme="cube" poids="3" couleur="gris" matérial="roche" position="basDroite" sur="table" couche="non"/>
 		<Block id="4" forme="donut saucisse" poids="10" couleur="rouge" matérial="métal" position="milieu" sur="table" couche="oui"/>

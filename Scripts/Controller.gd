@@ -155,6 +155,9 @@ func drop_on_position(state: State, position_name: String) -> State:
 		return null
 	if not POSITIONS.has(position_name):
 		return null
+	for b in state.blocks:
+		if b.m_position == position_name and b.m_block_below == null:
+			return null 
 	var ns: State = state.clone()
 	var hb: Block = ns.hold_block
 	hb.m_position = position_name
@@ -171,6 +174,9 @@ func drop_on_block(state: State, dest_block_id: int) -> State:
 	if dest_idx == -1:
 		return null
 	var dest_block: Block = ns.blocks[dest_idx]
+
+	if dest_block.m_shape == "donut saucisse" and dest_block.m_lay != "oui":
+		return null
 
 	for b in ns.blocks:
 		if b.m_block_below == dest_block:
