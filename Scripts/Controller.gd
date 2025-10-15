@@ -16,6 +16,96 @@ var queue: Array[StateNode] = []
 var last_search_node_count: int = 0
 var last_search_edge_count: int = 0
 
+# Helpers for bidirectional search
+func _state_hash(s: State) -> String:
+	# Create a compact canonical representation of a state for hashing/lookup
+	var parts: Array = []
+	# sort blocks by id to make canonical
+	var ids: Array = []
+	for b in s.blocks:
+		ids.append(b.m_id)
+	ids.sort()
+	for id in ids:
+		var b = null
+		for bb in s.blocks:
+			if bb.m_id == id:
+				b = bb
+				break
+		var below_id = -1
+		if b.m_block_below != null:
+			below_id = b.m_block_below.m_id
+		parts.append(str(id) + ":" + str(b.m_position) + "," + str(below_id) + "," + str(b.m_lay))
+	var hold_part = "-"
+	if s.hold_block != null:
+		hold_part = str(s.hold_block.m_id) + "," + str(s.hold_block.m_lay)
+	# join parts manually (Array.join may not be available depending on Godot version)
+	var joined = ""
+	for i in range(parts.size()):
+		if i > 0:
+			joined += "|"
+		joined += parts[i]
+	return joined + "|H:" + hold_part
+
+func _queue_has_hash(q: Array, h: String) -> bool:
+	for n in q:
+		if _state_hash(n.state) == h:
+			return true
+	return false
+
+func _reconstruct_meeting_path(node_from_start: StateNode, node_from_goal: StateNode) -> Array[String]:
+	# path from start -> meeting
+	var path_start: Array[String] = reconstruct_path(node_from_start)
+	# build node chain from goal root -> meeting
+	var nodes: Array = []
+	var n = node_from_goal
+	while n != null:
+		nodes.insert(0, n)
+		n = n.parent
+	# nodes[0] is goal root, nodes[-1] is meeting
+	# Collect inverted actions: iterate from meeting down to root and invert each action
+	var inv_actions: Array[String] = []
+	for i in range(nodes.size() - 1, 0, -1):
+		var before_state: State = nodes[i - 1].state
+		var after_state: State = nodes[i].state
+		var action = nodes[i].action
+		var inv = invert_action(action, before_state, after_state)
+		if inv == null:
+			return []
+		inv_actions.append(inv)
+	return path_start + inv_actions
+
+func invert_action(action: String, before_state: State, _after_state: State) -> Variant:
+	var parts = action.split(" ")
+	var cmd = parts[0]
+	if cmd == "pickup":
+		var id = int(parts[1])
+		# before_state had block in blocks; place depends on where it was
+		var b_before = null
+		for bb in before_state.blocks:
+			if bb.m_id == id:
+				b_before = bb
+				break
+		if b_before == null:
+			return null
+		if b_before.m_block_below == null:
+			return "drop_on_position " + str(b_before.m_position)
+		return "drop_on_block " + str(b_before.m_block_below.m_id)
+	elif cmd == "drop_on_position":
+		# inverse is pickup of the block that was held in before_state
+		if before_state.hold_block == null:
+			return null
+		return "pickup " + str(before_state.hold_block.m_id)
+	elif cmd == "drop_on_block":
+		if before_state.hold_block == null:
+			return null
+		return "pickup " + str(before_state.hold_block.m_id)
+	elif cmd == "lay":
+		return "stand"
+	elif cmd == "stand":
+		return "lay"
+	else:
+		return null
+
 func _init(start: State, goal: State) -> void:
 	start_state = start
 	goal_state = goal
@@ -228,37 +318,115 @@ func stand(state: State) -> State:
 # lancement de la recherche
 
 func search() -> Array[String]:
+	# Bidirectional breadth-first search (BFS)
 	var t0 = Time.get_ticks_msec()
-	var sizeTree = 0
+	var node_explored = 0
 	var edge_count = 0
-	if queue.size() > 0:
-		while queue.size() > 0:
-			var current_node: StateNode = queue.pop_front()
-			var current_state = current_node.state
 
-			if equals_state(current_state, goal_state):
-				var t1 = Time.get_ticks_msec()
-				print("[search] Solution trouvée en %d ms" % [t1 - t0])
-				print("[search] Taille de l'arbre exploré: %d noeuds" % sizeTree)
-				print("[search] Nombre d'arrêtes explorées: %d" % edge_count)
-				last_search_node_count = sizeTree
-				last_search_edge_count = edge_count
-				return reconstruct_path(current_node)
+	if start_state == null or goal_state == null:
+		return []
 
-			visited.append(current_state)
+	# Quick equality check
+	if equals_state(start_state, goal_state):
+		return []
 
-			var neighbors = generate_neighbors(current_node)
-			for neighbor_node in neighbors:
-				if not contains_state(visited, neighbor_node.state) and not contains_state_node(queue, neighbor_node):
-						sizeTree += 1
-						edge_count += 1
-						queue.append(neighbor_node)
+	# Frontiers and visited maps keyed by state hash -> StateNode
+	var front_f: Dictionary = {} # forward frontier queue (hash -> StateNode)
+	var front_b: Dictionary = {} # backward frontier
+	var q_f: Array = []
+	var q_b: Array = []
 
+	var seen_f: Dictionary = {} # hash -> StateNode (visited)
+	var seen_b: Dictionary = {}
+
+	var start_node = StateNode.new(start_state)
+	var goal_node = StateNode.new(goal_state)
+	q_f.append(start_node)
+	front_f[_state_hash(start_state)] = start_node
+	seen_f[_state_hash(start_state)] = start_node
+
+	q_b.append(goal_node)
+	front_b[_state_hash(goal_state)] = goal_node
+	seen_b[_state_hash(goal_state)] = goal_node
+
+	var _meeting_hash: String = ""
+
+	# Alternate expansion between forward and backward frontiers
+	var expand_forward = true
+	while q_f.size() > 0 and q_b.size() > 0:
+		# Choose which side to expand (simple alternation)
+		var current_queue: Array
+		var current_seen: Dictionary
+		var other_seen: Dictionary
+		if expand_forward:
+			current_queue = q_f
+			current_seen = seen_f
+			other_seen = seen_b
+		else:
+			current_queue = q_b
+			current_seen = seen_b
+			other_seen = seen_f
+
+		var current_node: StateNode = current_queue.pop_front()
+		var curr_state = current_node.state
+
+		# Check meeting
+		var h = _state_hash(curr_state)
+		if other_seen.has(h):
+			_meeting_hash = h
+			# Build path by connecting current_node and the node from other side
+			var other_node: StateNode = other_seen[h]
+			var path: Array[String] = []
+			if expand_forward:
+				path = _reconstruct_meeting_path(current_node, other_node)
+			else:
+				path = _reconstruct_meeting_path(other_node, current_node)
+
+			var t1 = Time.get_ticks_msec()
+			print("[search] Solution trouvée (bidirectional) en %d ms" % [t1 - t0])
+			print("[search] Taille de l'arbre exploré: %d noeuds" % node_explored)
+			print("[search] Nombre d'arrêtes explorées: %d" % edge_count)
+			last_search_node_count = node_explored
+			last_search_edge_count = edge_count
+			return path
+
+		# mark visited
+		current_seen[h] = current_node
+		node_explored += 1
+
+		var neighbors = generate_neighbors(current_node)
+		for neighbor_node in neighbors:
+			edge_count += 1
+			var nh = _state_hash(neighbor_node.state)
+			if not current_seen.has(nh) and not _queue_has_hash(current_queue, nh):
+				# if neighbor seen by other side -> meeting
+				if other_seen.has(nh):
+					var other_node2: StateNode = other_seen[nh]
+					var path2: Array[String] = []
+					if expand_forward:
+						path2 = _reconstruct_meeting_path(neighbor_node, other_node2)
+					else:
+						path2 = _reconstruct_meeting_path(other_node2, neighbor_node)
+					var t2 = Time.get_ticks_msec()
+					print("[search] Solution trouvée (bidirectional on neighbor) en %d ms" % [t2 - t0])
+					print("[search] Taille de l'arbre exploré: %d noeuds" % node_explored)
+					print("[search] Nombre d'arrêtes explorées: %d" % edge_count)
+					last_search_node_count = node_explored
+					last_search_edge_count = edge_count
+					return path2
+				
+		# otherwise enqueue
+				current_queue.append(neighbor_node)
+				current_seen[nh] = neighbor_node
+		
+
+		expand_forward = not expand_forward
+	
 	var t_end = Time.get_ticks_msec()
 	print("[search] Aucune solution trouvée en %d ms" % [t_end - t0])
-	print("[search] Taille de l'arbre exploré: %d noeuds" % sizeTree)
+	print("[search] Taille de l'arbre exploré: %d noeuds" % node_explored)
 	print("[search] Nombre d'arrêtes explorées: %d" % edge_count)
-	last_search_node_count = sizeTree
+	last_search_node_count = node_explored
 	last_search_edge_count = edge_count
 	return []
 
