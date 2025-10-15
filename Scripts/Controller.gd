@@ -13,6 +13,8 @@ var start_state: State
 var goal_state: State
 var visited: Array[State] = []
 var queue: Array[StateNode] = []
+var last_search_node_count: int = 0
+var last_search_edge_count: int = 0
 
 func _init(start: State, goal: State) -> void:
 	start_state = start
@@ -228,25 +230,38 @@ func stand(state: State) -> State:
 func search() -> Array[String]:
 	var t0 = Time.get_ticks_msec()
 	var sizeTree = 0
-	while queue.size() > 0:
-		var current_node: StateNode = queue.pop_front()
-		var current_state = current_node.state
+	var edge_count = 0
+	if queue.size() > 0:
+		while queue.size() > 0:
+			var current_node: StateNode = queue.pop_front()
+			var current_state = current_node.state
 
+			if equals_state(current_state, goal_state):
+				var t1 = Time.get_ticks_msec()
+				print("[search] Solution trouvée en %d ms" % [t1 - t0])
+				print("[search] Taille de l'arbre exploré: %d noeuds" % sizeTree)
+				print("[search] Nombre d'arrêtes explorées: %d" % edge_count)
+				last_search_node_count = sizeTree
+				last_search_edge_count = edge_count
+				return reconstruct_path(current_node)
 
-		if equals_state(current_state, goal_state):
-			var t1 = Time.get_ticks_msec()
-			print("[search] Solution trouvée en %d ms" % [t1-t0])
-			print("[search] Taille de l'arbre exploré: %d noeuds" % sizeTree)
-			return reconstruct_path(current_node)
+			visited.append(current_state)
 
-		visited.append(current_state)
+			var neighbors = generate_neighbors(current_node)
+			for neighbor_node in neighbors:
+				if not contains_state(visited, neighbor_node.state) and not contains_state_node(queue, neighbor_node):
+						sizeTree += 1
+						edge_count += 1
+						queue.append(neighbor_node)
 
-		var neighbors = generate_neighbors(current_node)
-		for neighbor_node in neighbors:
-			if not contains_state(visited, neighbor_node.state) and not contains_state_node(queue, neighbor_node):
-				sizeTree += 1
-				queue.append(neighbor_node)
+	var t_end = Time.get_ticks_msec()
+	print("[search] Aucune solution trouvée en %d ms" % [t_end - t0])
+	print("[search] Taille de l'arbre exploré: %d noeuds" % sizeTree)
+	print("[search] Nombre d'arrêtes explorées: %d" % edge_count)
+	last_search_node_count = sizeTree
+	last_search_edge_count = edge_count
 	return []
+
 
 func generate_neighbors(node: StateNode) -> Array[StateNode]:
 	var results: Array[StateNode] = []

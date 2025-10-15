@@ -1,0 +1,23 @@
+[gd_scene load_steps=7 format=3 uid="uid://gs15tpu0tt1a"]
+
+[ext_resource type="PackedScene" uid="uid://cy2rn4i6fh61g" path="res://asset/Hand.fbx" id="1_xtd58"]
+[ext_resource type="Texture2D" uid="uid://q1qab6qux56q" path="res://asset/textures/Hand_Base_Color.png" id="2_i8qix"]
+[ext_resource type="Texture2D" uid="uid://dbi1567rbfcbw" path="res://asset/textures/Hand_Metallic.png" id="3_1kbxi"]
+[ext_resource type="Texture2D" uid="uid://cigntnip10afc" path="res://asset/textures/Hand_Normal_Map.png" id="4_slhjl"]
+[ext_resource type="Texture2D" uid="uid://bmf5jh1ek56ht" path="res://asset/textures/Hand_Roughness.png" id="5_eeo01"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_de7ij"]
+albedo_texture = ExtResource("2_i8qix")
+metallic = 1.0
+metallic_texture = ExtResource("3_1kbxi")
+roughness_texture = ExtResource("5_eeo01")
+emission_enabled = true
+emission_energy_multiplier = 0.2
+emission_texture = ExtResource("2_i8qix")
+normal_enabled = true
+normal_texture = ExtResource("4_slhjl")
+
+[node name="Hand" instance=ExtResource("1_xtd58")]
+
+[node name="Null" parent="." index="0"]
+material_override = SubResource("StandardMaterial3D_de7ij")
