@@ -1,0 +1,27 @@
+<BlockWorld>
+	<Initial>
+		<Block id="1" forme="cube" poids="50" couleur="gris" matérial="métal" position="hautGauche" sur="table" couche="non"/>
+		<Block id="2" forme="cube" poids="3" couleur="violet" matérial="bois" position="hautGauche" sur="1" couche="non"/>
+		<Block id="3" forme="cube" poids="3" couleur="rouge" matérial="roche" position="basDroite" sur="table" couche="non"/>
+		<Block id="4" forme="cube" poids="10" couleur="vert" matérial="métal" position="hautDroite" sur="table" couche="non"/>
+    	<Block id="5" forme="cube" poids="10" couleur="bleu" matérial="métal" position="basGauche" sur="table" couche="non"/>
+		<Block id="6" forme="cube" poids="10" couleur="blanc" matérial="métal" position="basDroite" sur="3" couche="non"/>
+		<Block id="7" forme="cube" poids="10" couleur="rose" matérial="métal" position="basDroite" sur="6" couche="non"/>
+		<Block id="8" forme="cube" poids="10" couleur="jaune" matérial="métal" position="milieu" sur="table" couche="non"/>
+		<Block id="9" forme="cube" poids="10" couleur="orange" matérial="métal" position="milieu" sur="8" couche="non"/>
+		<Block id="10" forme="cube" poids="10" couleur="noir" matérial="métal" position="hautDroite" sur="4" couche="non"/>
+	</Initial>
+
+    <Goal>
+		<Block id="1" forme="cube" poids="50" couleur="gris" matérial="métal" position="milieu" sur="table" couche="non"/>
+		<Block id="2" forme="cube" poids="3" couleur="violet" matérial="bois" position="milieu" sur="1" couche="non"/>
+		<Block id="3" forme="cube" poids="3" couleur="rouge" matérial="roche" position="milieu" sur="2" couche="non"/>
+		<Block id="4" forme="cube" poids="10" couleur="vert" matérial="métal" position="milieu" sur="3" couche="non"/>
+    	<Block id="5" forme="cube" poids="10" couleur="bleu" matérial="métal" position="milieu" sur="4" couche="non"/>
+		<Block id="6" forme="cube" poids="10" couleur="blanc" matérial="métal" position="milieu" sur="5" couche="non"/>
+		<Block id="7" forme="cube" poids="10" couleur="rose" matérial="métal" position="milieu" sur="6" couche="non"/>
+		<Block id="8" forme="cube" poids="10" couleur="jaune" matérial="métal" position="milieu" sur="7" couche="non"/>
+		<Block id="9" forme="cube" poids="10" couleur="orange" matérial="métal" position="milieu" sur="8" couche="non"/>
+		<Block id="10" forme="cube" poids="10" couleur="noir" matérial="métal" position="milieu" sur="9" couche="non"/>
+	</Goal>
+</BlockWorld>
